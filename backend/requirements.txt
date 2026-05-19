@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pandas
+geopandas
+requests
+python-dotenv
+pydantic
+shapely
+pytz

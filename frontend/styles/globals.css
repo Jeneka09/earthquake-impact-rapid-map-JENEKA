@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 3, 7, 18;
+  --foreground: 255, 255, 255;
+}
+
+body {
+  color: rgb(var(--foreground));
+  background: #030712;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden; /* Prevent body scroll, use sidebar/map layout */
+}
+
+.glass {
+  background: rgba(11, 17, 23, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(31, 41, 55, 0.5);
+}
+
+.cyan-glow {
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+}
+
+.active-glow {
+  border: 0.5px solid #38BDF8;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+}
+
+/* Leaflet Map Overrides */
+.leaflet-container {
+  background: #030712 !important;
+}
+
+.pulsing-marker {
+  width: 12px;
+  height: 12px;
+  background: #38BDF8;
+  border-radius: 50%;
+  position: relative;
+}
+
+.pulsing-marker::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  border-radius: inherit;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(3.5); opacity: 0; }
+}

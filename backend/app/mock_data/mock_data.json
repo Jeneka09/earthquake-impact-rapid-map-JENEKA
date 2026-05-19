@@ -1,0 +1,43 @@
+{
+  "earthquakes": [
+    {
+      "id": "mock_001",
+      "magnitude": 6.4,
+      "location": "Southern California",
+      "coordinates": [34.0522, -118.2437],
+      "timestamp": "2026-05-14T10:00:00Z",
+      "depth": 10.5,
+      "impact_radius": 150,
+      "population_exposed": 1250000,
+      "infrastructure_count": {
+        "hospitals": 12,
+        "power_stations": 5,
+        "evacuation_centers": 8
+      }
+    },
+    {
+      "id": "mock_002",
+      "magnitude": 5.2,
+      "location": "Sea of Japan",
+      "coordinates": [36.2048, 138.2529],
+      "timestamp": "2026-05-14T11:30:00Z",
+      "depth": 5.0,
+      "impact_radius": 80,
+      "population_exposed": 450000,
+      "infrastructure_count": {
+        "hospitals": 4,
+        "power_stations": 2,
+        "evacuation_centers": 3
+      }
+    }
+  ],
+  "infrastructure": {
+    "hospitals": [
+      {"name": "City General", "coordinates": [34.06, -118.25], "type": "hospital"},
+      {"name": "St. Marys", "coordinates": [34.04, -118.23], "type": "hospital"}
+    ],
+    "power_stations": [
+      {"name": "Downtown Grid", "coordinates": [34.05, -118.26], "type": "power_station"}
+    ]
+  }
+}
