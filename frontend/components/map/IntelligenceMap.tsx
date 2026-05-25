@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import 'leaflet/dist/leaflet.css';
 
-
 // Dynamic import to avoid SSR issues with Leaflet
 const MapContainer = dynamic(() => import('react-leaflet').then(mod => mod.MapContainer), { ssr: false });
 const TileLayer = dynamic(() => import('react-leaflet').then(mod => mod.TileLayer), { ssr: false });
@@ -12,7 +11,7 @@ const Marker = dynamic(() => import('react-leaflet').then(mod => mod.Marker), { 
 const Popup = dynamic(() => import('react-leaflet').then(mod => mod.Popup), { ssr: false });
 const Circle = dynamic(() => import('react-leaflet').then(mod => mod.Circle), { ssr: false });
 
-export default function IntelligenceMap({ events, selectedEvent, setSelectedEvent }: any) {
+export default function IntelligenceMap({ events, selectedEvent, setSelectedEvent, infrastructure, filters }: any) {
   const [L, setL] = useState<any>(null);
 
   useEffect(() => {
@@ -32,6 +31,18 @@ export default function IntelligenceMap({ events, selectedEvent, setSelectedEven
     iconAnchor: [6, 6]
   });
 
+  const hospitalIcon = L.divIcon({
+    className: 'custom-div-icon',
+    html: `<div style="width:10px;height:10px;background:#ef4444;border-radius:50%;box-shadow:0 0 5px #ef4444;"></div>`,
+    iconSize: [10, 10],
+  });
+
+  const powerIcon = L.divIcon({
+    className: 'custom-div-icon',
+    html: `<div style="width:10px;height:10px;background:#eab308;box-shadow:0 0 5px #eab308;"></div>`,
+    iconSize: [10, 10],
+  });
+
   return (
     <div className="w-full h-full relative">
       <MapContainer 
@@ -45,7 +56,7 @@ export default function IntelligenceMap({ events, selectedEvent, setSelectedEven
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
         />
 
-        {events.map((event: any) => (
+        {events?.map((event: any) => (
           <React.Fragment key={event.id}>
             <Marker 
               position={event.coordinates} 
@@ -81,6 +92,29 @@ export default function IntelligenceMap({ events, selectedEvent, setSelectedEven
             />
           </React.Fragment>
         ))}
+
+        {filters?.showHospitals && infrastructure?.hospitals?.map((hosp: any, i: number) => (
+          <Marker key={`hosp-${i}`} position={[hosp.lat, hosp.lon]} icon={hospitalIcon}>
+            <Popup className="intelligence-popup">
+              <div className="p-2 font-mono">
+                <span className="text-[10px] text-red-500 uppercase font-bold">HOSPITAL</span><br/>
+                <span className="text-xs text-white">{hosp.name}</span>
+              </div>
+            </Popup>
+          </Marker>
+        ))}
+
+        {filters?.showPower && infrastructure?.power_grid?.map((power: any, i: number) => (
+          <Marker key={`power-${i}`} position={[power.lat, power.lon]} icon={powerIcon}>
+            <Popup className="intelligence-popup">
+              <div className="p-2 font-mono">
+                <span className="text-[10px] text-yellow-500 uppercase font-bold">POWER GRID</span><br/>
+                <span className="text-xs text-white">{power.name}</span>
+              </div>
+            </Popup>
+          </Marker>
+        ))}
+
       </MapContainer>
 
       {/* Overlay controls */}
