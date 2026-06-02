@@ -11,7 +11,7 @@ const Marker = dynamic(() => import('react-leaflet').then(mod => mod.Marker), { 
 const Popup = dynamic(() => import('react-leaflet').then(mod => mod.Popup), { ssr: false });
 const Circle = dynamic(() => import('react-leaflet').then(mod => mod.Circle), { ssr: false });
 
-export default function IntelligenceMap({ events, selectedEvent, setSelectedEvent, infrastructure, filters }: any) {
+export default function IntelligenceMap({ events, selectedEvent, setSelectedEvent, infrastructure, filters, impactAnalysis }: any) {
   const [L, setL] = useState<any>(null);
 
   useEffect(() => {
@@ -73,6 +73,14 @@ export default function IntelligenceMap({ events, selectedEvent, setSelectedEven
                     <span className="text-white font-bold">{event.magnitude}</span>
                     <span className="text-muted">DEPTH</span>
                     <span className="text-white font-bold">{event.depth} km</span>
+                    <span className="text-muted">RADIUS</span>
+                    <span className="text-white font-bold">{event.impact_radius} km</span>
+                    {selectedEvent?.id === event.id && impactAnalysis?.population_estimate && (
+                      <>
+                        <span className="text-muted">POPULATION</span>
+                        <span className="text-white font-bold">{impactAnalysis.population_estimate.total_affected.toLocaleString()}</span>
+                      </>
+                    )}
                   </div>
                 </div>
               </Popup>

@@ -22,6 +22,17 @@ export default function Dashboard() {
   const [time, setTime] = useState("");
   const [isMockData, setIsMockData] = useState(false);
   const [infrastructure, setInfrastructure] = useState({});
+  const [impactAnalysis, setImpactAnalysis] = useState(null);
+
+  useEffect(() => {
+    if (selectedEvent) {
+      axios.get(`http://localhost:8000/population-impact?lat=${selectedEvent.coordinates[0]}&lon=${selectedEvent.coordinates[1]}&magnitude=${selectedEvent.magnitude}`)
+        .then(res => setImpactAnalysis(res.data))
+        .catch(console.error);
+    } else {
+      setImpactAnalysis(null);
+    }
+  }, [selectedEvent]);
 
   const fetchData = async () => {
     try {
@@ -101,6 +112,7 @@ export default function Dashboard() {
           setSelectedEvent={setSelectedEvent} 
           infrastructure={infrastructure}
           filters={filters}
+          impactAnalysis={impactAnalysis}
         />
         </div>
 
@@ -112,6 +124,7 @@ export default function Dashboard() {
             stats={stats} 
             selectedEvent={selectedEvent}
             events={events}
+            impactAnalysis={impactAnalysis}
           />
         </div>
       </div>

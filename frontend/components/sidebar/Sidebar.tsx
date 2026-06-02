@@ -10,7 +10,7 @@ import {
   Filter
 } from 'lucide-react';
 
-export default function Sidebar({ filters, setFilters, stats, selectedEvent, events }: any) {
+export default function Sidebar({ filters, setFilters, stats, selectedEvent, events, impactAnalysis }: any) {
   
   const handleExportGeoJSON = () => {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(events));
@@ -45,12 +45,42 @@ export default function Sidebar({ filters, setFilters, stats, selectedEvent, eve
             <Activity className="w-4 h-4 text-primary" />
             <h2 className="text-xs font-bold uppercase tracking-wider text-primary">Active Selection Insight</h2>
           </div>
-          <div className="space-y-2">
-            <p className="text-sm text-white font-bold">{selectedEvent.location}</p>
-            <p className="text-xs text-gray-400">Magnitude: <span className="text-white">{selectedEvent.magnitude}</span></p>
-            <p className="text-xs text-primary font-mono mt-2 p-2 border border-primary/30 rounded bg-background">
-              ESTIMATED EXPOSURE: {(selectedEvent.magnitude * 8.5).toFixed(1)}% ABOVE REGIONAL AVERAGE
-            </p>
+          <div className="space-y-3">
+            <div>
+              <p className="text-sm text-white font-bold">{selectedEvent.location}</p>
+              <div className="flex gap-4 mt-1">
+                <p className="text-xs text-gray-400">Magnitude: <span className="text-white">{selectedEvent.magnitude}</span></p>
+                {impactAnalysis && (
+                  <p className="text-xs text-gray-400">Radius: <span className="text-white">{impactAnalysis.impact_radius_km} km</span></p>
+                )}
+              </div>
+            </div>
+            
+            {impactAnalysis && impactAnalysis.population_estimate ? (
+              <div className="bg-background border border-border p-3 rounded-md space-y-2">
+                <div className="flex justify-between items-center border-b border-border pb-2">
+                  <p className="text-[10px] text-muted uppercase">Population Estimate</p>
+                  {impactAnalysis.population_estimate.is_mock_data && (
+                    <span className="text-[8px] bg-yellow-500/20 text-yellow-500 px-1.5 py-0.5 rounded border border-yellow-500/30 uppercase font-bold tracking-wider">Synthetic Data</span>
+                  )}
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <p className="text-[9px] text-muted uppercase">Total Affected</p>
+                    <p className="text-sm font-mono text-white font-bold">{impactAnalysis.population_estimate.total_affected.toLocaleString()}</p>
+                  </div>
+                  <div>
+                    <p className="text-[9px] text-muted uppercase">Density (sq/km)</p>
+                    <p className="text-sm font-mono text-white font-bold">{impactAnalysis.population_estimate.density_per_sqkm}</p>
+                  </div>
+                </div>
+                <p className="text-[10px] text-primary font-mono mt-2 pt-2 border-t border-border">
+                  EXPOSURE: {impactAnalysis.population_estimate.percentage_above_average}% ABOVE REGIONAL AVG
+                </p>
+              </div>
+            ) : (
+              <div className="text-[10px] text-muted font-mono animate-pulse">CALCULATING SPATIAL IMPACT...</div>
+            )}
           </div>
         </section>
       )}

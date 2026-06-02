@@ -6,7 +6,8 @@ Production-grade geospatial intelligence dashboard for the Real Rails Intelligen
 
 ## 🌟 Features
 - **Real-Time Geospatial Intelligence**: Live event feeds ingested directly from the USGS Earthquake Hazards API.
-- **Impact Analysis Radius**: Dynamic exposure radius calculations powered by Turf.js, mapping severity relative to magnitude.
+- **Dynamic Impact Radius**: Automatically scales impact zones based on event magnitude (e.g. Mag 6.0 = 100km radius).
+- **Population Estimation**: Synthetic/Mock population calculations computing total affected residents and density within the impact zone.
 - **Infrastructure Overlays**: Toggleable intelligence layers for critical infrastructure (Hospitals, Power Grids) via OpenStreetMap.
 - **Resilient Architecture**: Automatic fallback to local mock data systems ensuring operational continuity during API rate limits.
 - **Bloomberg-Style UI**: Strict 70/30 split layout with Obsidian Black (#030712) background, glassmorphism elements, and cyan glow interactions.
