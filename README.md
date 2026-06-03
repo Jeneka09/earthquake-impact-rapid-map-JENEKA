@@ -1,137 +1,129 @@
-# Earthquake Impact Rapid Map
+# POC-36 · Earthquake Impact Rapid Map · Real Rails Intelligence Library · Data & Intelligence Rail
 
-Production-grade geospatial intelligence dashboard for the Real Rails Intelligence Library. Built with high-end fintech terminal aesthetics, providing real-time operational visibility into global seismic events and infrastructure exposure.
+A production-style full-stack intelligence dashboard for monitoring global seismic events and infrastructure impact — built as part of the Real Rails Internship Program at Boston Institute of Analytics.
 
----
+## 📸 Preview
+Live dark dashboard showing real-time global earthquake activity with magnitude-scaled impact radii, infrastructure exposure mapping, and synthetic population estimations.
 
-## 🌟 Features
-- **Real-Time Geospatial Intelligence**: Live event feeds ingested directly from the USGS Earthquake Hazards API.
-- **Dynamic Impact Radius**: Automatically scales impact zones based on event magnitude (e.g. Mag 6.0 = 100km radius).
-- **Population Estimation**: Synthetic/Mock population calculations computing total affected residents and density within the impact zone.
-- **Infrastructure Overlays**: Toggleable intelligence layers for critical infrastructure (Hospitals, Power Grids) via OpenStreetMap.
-- **Resilient Architecture**: Automatic fallback to local mock data systems ensuring operational continuity during API rate limits.
-- **Bloomberg-Style UI**: Strict 70/30 split layout with Obsidian Black (#030712) background, glassmorphism elements, and cyan glow interactions.
-- **Rapid Data Export**: Single-click GeoJSON generation for active intelligence payloads.
+## ✨ Features
 
----
+| Feature | Description |
+| :--- | :--- |
+| 🗺️ **Interactive Map** | World map with pulsing event markers and dynamic magnitude-based impact radii |
+| 📊 **Live Metrics** | Total active events and critical exposure zones |
+| 🧠 **Population Estimate** | Synthetic population calculation computing total affected residents and density within the impact zone |
+| 🏥 **Infrastructure Overlays** | Toggleable intelligence layers for critical infrastructure (Hospitals, Power Grids) |
+| 🚨 **Selection Insight** | Deep-dive statistics and exposure score for any selected seismic event |
+| 🎯 **Filters** | Dynamic filtering by minimum magnitude and time window |
+| ❓ **Why This Matters** | Explanation panel for operational visibility into infrastructure exposure |
+| 🚂 **Who Controls The Rail** | Key stakeholders like USGS, WorldPop, and OpenStreetMap |
+| 📥 **Rapid Export** | Single-click GeoJSON generation for active intelligence payloads |
 
 ## 🛠️ Tech Stack
-### Frontend
-- **Next.js 14+** (App Router)
-- **TypeScript** & **Tailwind CSS**
-- **Leaflet** & **React Leaflet** (CartoDB Dark Matter tiles)
-- **Turf.js** (Spatial Analysis)
-- **Lucide React** (Iconography)
 
-### Backend
-- **FastAPI** (Python 3)
-- **Pandas** & **GeoPandas** (Data Normalization)
-- **Uvicorn** (ASGI Server)
-- **Requests** (External API Ingestion)
+**Frontend**
+- **Next.js 14** — React framework with App Router
+- **TypeScript** — Type-safe development
+- **Tailwind CSS** — Utility-first styling
+- **Leaflet.js** & **React Leaflet** — Interactive map rendering
+- **Turf.js** — Spatial analysis
 
----
+**Backend**
+- **Python FastAPI** — High-performance REST API
+- **Pandas** & **GeoPandas** — Data analysis and spatial mapping
+- **Uvicorn** — ASGI server
+- **Requests** — External API ingestion
 
-## 📁 Folder Structure
+## 📂 Project Structure
 
 ```
 earthquake-impact-rapid-map/
-├── frontend/
-│   ├── app/                   # Next.js App Router (page.tsx, layout.tsx)
-│   ├── components/
-│   │   ├── layout/            # Headers, FilterBars
-│   │   ├── map/               # Leaflet IntelligenceMap
-│   │   └── sidebar/           # 30% Intelligence Sidebar
-│   ├── styles/                # globals.css (Real Rails UI overrides)
-│   └── public/                # Static assets
-│
 ├── backend/
 │   ├── app/
-│   │   ├── main.py            # FastAPI Entry Point
-│   │   ├── services/          # USGS ingestion & normalization
-│   │   └── mock_data/         # Resilient fallback datasets
-│   └── requirements.txt
-│
+│   │   ├── main.py                    # FastAPI app with all API endpoints
+│   │   ├── services/
+│   │   │   └── earthquake_service.py  # USGS ingestion & impact logic
+│   │   └── mock_data/                 # Resilient fallback datasets
+│   └── requirements.txt               # Python dependencies
+├── frontend/
+│   ├── app/
+│   │   ├── components/
+│   │   │   ├── layout/                # Headers and Filter Bars
+│   │   │   ├── map/                   # IntelligenceMap (Leaflet)
+│   │   │   └── sidebar/               # Intelligence Sidebar
+│   │   └── page.tsx                   # Main dashboard page
+│   ├── styles/                        # globals.css
+│   └── tailwind.config.ts             # Tailwind configuration
+├── .env.example                       # Environment variables template
+├── .gitignore
 └── README.md
 ```
 
----
+## 🚀 Getting Started
 
-## 🚀 Setup Instructions & Installation
+**Prerequisites**
+- Node.js 18+
+- Python 3.9+
+- npm or yarn
 
-### Prerequisites
-- Node.js (v18+)
-- Python (3.10+)
+**1. Clone the repository**
+```bash
+git clone https://github.com/Real-Rails-Interns-Batch2/earthquake-impact-rapid-map-JENEKA.git
+cd earthquake-impact-rapid-map-JENEKA
+```
 
-### 1. Backend Setup
-Navigate to the backend directory and install dependencies:
+**2. Set up environment variables**
+```bash
+cp .env.example .env
+```
+*(Perform this in both the frontend and backend directories)*
+
+**3. Start the backend**
 ```bash
 cd backend
+python -m venv venv
+venv\Scripts\activate        # Windows
+source venv/bin/activate     # Mac/Linux
 pip install -r requirements.txt
-```
-Start the FastAPI server:
-```bash
 python app/main.py
 ```
-> The API will be active at `http://localhost:8000`
+Backend runs on: `http://localhost:8000`
 
-### 2. Frontend Setup
-Open a new terminal, navigate to the frontend directory, and install dependencies:
+**4. Start the frontend**
 ```bash
 cd frontend
 npm install
-```
-Start the Next.js development server:
-```bash
 npm run dev
 ```
-> The dashboard will be accessible at `http://localhost:3000`
-
----
+Frontend runs on: `http://localhost:3000`
 
 ## 🔌 API Endpoints
 
 | Endpoint | Method | Description |
 | :--- | :--- | :--- |
-| `/` | GET | API Health check & status |
-| `/earthquakes` | GET | Fetches live USGS data or falls back to mock dataset. Accepts `minMagnitude` query param. |
-| `/analytics` | GET | Returns high-level operational metrics (Active Events, Zones). |
-| `/infrastructure` | GET | Retrieves critical infrastructure coordinates (Hospitals, Power Grids) within a specified radius. |
+| `/` | GET | API health check & status |
+| `/earthquakes` | GET | Fetches live USGS data or falls back to mock dataset |
+| `/analytics` | GET | Aggregate metrics (Active Events, Zones) |
+| `/infrastructure` | GET | Retrieves critical infrastructure coordinates |
+| `/population-impact` | GET | Synthetic population estimation calculation |
 
----
+## 📊 Data Sources
 
-## ⚙️ Environment Variables
+| Source | Status | Description |
+| :--- | :--- | :--- |
+| **USGS** | Live / Mock Fallback | Real-time seismic event data feeds |
+| **WorldPop** | Synthetic | Population density and exposure mapping |
+| **OpenStreetMap** | Synthetic | Critical infrastructure locations |
 
-Copy the provided `.env.example` files to `.env` in both the `frontend` and `backend` directories.
+*Note: Synthetic data is clearly labelled per Real Rails manifesto guidelines. All mock data is representative of real-world patterns.*
 
-**Frontend (`frontend/.env`)**:
-```env
-NEXT_PUBLIC_API_URL=http://localhost:8000
-# NEXT_PUBLIC_MAPBOX_TOKEN= (Optional if switching from CartoDB)
-```
+## 🎨 Dashboard Panels
 
-**Backend (`backend/.env`)**:
-```env
-USGS_API_URL=https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson
-ENV=development
-```
+**Why This Matters**
+Practical emergency-intelligence PoC with strong visual clarity. Operational visibility into infrastructure exposure is critical for rapid response and resource allocation.
 
----
+**Who Controls The Rail**
+Emergency response infrastructure is governed by a patchwork of national geological surveys (USGS), international population data providers (WorldPop), and localized open-source mapping contributors (OpenStreetMap).
 
-## 📸 Screenshots
-
-*(Placeholders for future UI captures)*
-- [Dashboard Overview]
-- [Infrastructure Overlays Active]
-- [Mock Fallback Indicator]
-
----
-
-## 🚀 Future Improvements
-- Integrate active WorldPop raster data for true population exposure calculations.
-- Expand Overpass API queries for live dynamic infrastructure loading based on map bounds.
-- Implement WebSocket connections for true push-based real-time event updates.
-
----
-
-## 📄 License
-MIT License
+## 👩‍💻 Built By
+**JENEKA AD - Earthquake Impact Rapid Map POC #36**
